@@ -1,0 +1,29 @@
+.dev-card {
+  padding: 20px;
+  border: black solid 1px;
+  color: black;
+  width: 25%;
+  margin: 10px 10px;
+}
+
+.dev-card img {
+  border-radius: 50%;
+  height: 30%;
+  width: 30%;
+}
+
+.dev-card .top {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.dev-card .bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.dev-card p {
+  margin: 5px;
+}
