@@ -13,6 +13,7 @@ const DevelopersProvider = developersContext.Provider;
 
 function App() {
   const [developers, setDevelopers] = useState([]);
+  const [pickedId, setPickedId] = useState(null);
 
   useEffect(() => {
     fetch("https://618129148bfae60017adfe77.mockapi.io/developers")
@@ -25,10 +26,14 @@ function App() {
     <Router>
       <Switch>
         <DevelopersProvider value={{ developers }}>
-          <Route exact path="/" component={Home} developers={developers} />
+          <Route exact path="/">
+            <Home developers={developers} setPickedId={setPickedId} />
+          </Route>
           <Route exact path="/create_profile" component={Create_profile} />
           <Route exact path="/create_team" component={Create_team} />
-          <Route exact path="/edit_dev" component={Edit_dev} />
+          <Route exact path="/edit_dev">
+            <Edit_dev pickedId={pickedId} />
+          </Route>
         </DevelopersProvider>
       </Switch>
     </Router>
