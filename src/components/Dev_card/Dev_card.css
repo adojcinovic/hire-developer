@@ -36,3 +36,13 @@
 .dev-card .options .delete {
   color: red;
 }
+
+.hover {
+  cursor: pointer;
+}
+.show-details {
+  color: lightskyblue;
+}
+.edit {
+  color: coral;
+}

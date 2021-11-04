@@ -1,4 +1,21 @@
+.home-page {
+  width: 100%;
+}
+.home-page h3 {
+  padding: 30px;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+}
+.header button {
+  padding: 10px 20px 10px;
+}
 .developers {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
+  padding: 30px;
 }

@@ -1,0 +1,49 @@
+.close {
+  position: absolute;
+  right: 10px;
+  top: 0;
+  color: red;
+  cursor: pointer;
+  background-color: lightgray;
+  border-radius: 20px;
+  padding: 5px 15px;
+}
+.modal div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: left;
+  align-items: stretch;
+}
+.modal div label {
+  font-weight: 600;
+}
+.modal div input {
+  border-radius: 5px;
+  border: 1px solid black;
+  margin-bottom: 10px;
+  margin-top: 5px;
+}
+.submit {
+  position: absolute;
+  bottom: 0;
+  right: 10px;
+  color: green;
+  cursor: pointer;
+  background-color: lightgray;
+  border-radius: 20px;
+  padding: 5px 15px;
+}
+.email {
+  margin-bottom: 0 !important;
+}
+.message {
+  margin-top: 0;
+  font-size: 10px;
+}
+.success {
+  color: blue;
+}
+.error {
+  color: red;
+}

@@ -2,6 +2,36 @@
   color: saddlebrown;
 }
 .modal {
-  width: 300px;
+  width: 250px;
   height: 300px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.details p {
+  margin-bottom: 2px;
+  margin-top: 2px;
+}
+.modal .details {
+  text-align: left;
+}
+
+.top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.top img {
+  border-radius: 50%;
+  width: 100px;
+}
+.close {
+  position: absolute;
+  right: 10px;
+  color: red;
+  cursor: pointer;
+  background-color: lightgray;
+  border-radius: 20px;
+  padding: 5px 15px;
 }
