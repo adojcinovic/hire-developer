@@ -1,9 +1,16 @@
 .dev-card {
   padding: 20px 20px 0 20px;
-  border: black solid 1px;
+  border: green solid 1px;
   color: black;
   width: 25%;
   margin: 10px 10px;
+  border-radius: 10px;
+  transition: 0.5s;
+}
+
+.dev-card:hover {
+  -webkit-box-shadow: 0px 0px 23px 0px rgba(0, 140, 0, 0.51);
+  box-shadow: 0px 0px 23px 0px rgba(0, 140, 0, 0.51);
 }
 
 .dev-card img {

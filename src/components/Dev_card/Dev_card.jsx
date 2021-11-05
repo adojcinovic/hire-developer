@@ -22,7 +22,7 @@ const Dev_card = (props) => {
 
   return developers.map((element) => {
     return (
-      <div className="dev-card">
+      <div key={element.id} className="dev-card">
         <div className="top">
           <img src={element.profile_pic} alt="" />
           <div className="details">

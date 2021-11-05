@@ -20,10 +20,15 @@ const Home = (props) => {
   return (
     <div className="home-page">
       <div className="header">
-        <h3>HOME</h3>
-        <Link to={`/Create_profile`}>
-          <button>Create new developer profile</button>
-        </Link>
+        <h2>PRIME HIRING</h2>
+        <div>
+          <Link to={`/Create_profile`}>
+            <button>Create new developer profile</button>
+          </Link>
+          <Link to={`/Hired`}>
+            <button>Hire developer</button>
+          </Link>
+        </div>
       </div>
       <br />
       <div className="developers">

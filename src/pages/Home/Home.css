@@ -1,8 +1,9 @@
 .home-page {
   width: 100%;
 }
-.home-page h3 {
+.home-page h2 {
   padding: 30px;
+  color: green;
 }
 .header {
   display: flex;
@@ -11,7 +12,13 @@
   padding: 30px;
 }
 .header button {
-  padding: 10px 20px 10px;
+  color: green;
+  cursor: pointer;
+  /* background-color: lightgray; */
+  border-radius: 20px;
+  border: 1px solid green;
+  padding: 10px 15px;
+  margin-left: 10px;
 }
 .developers {
   display: flex;
