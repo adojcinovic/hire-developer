@@ -25,7 +25,7 @@ const Home = (props) => {
           <Link to={`/Create_profile`}>
             <button>Create new developer profile</button>
           </Link>
-          <Link to={`/Hired`}>
+          <Link to={`/hire_developer`}>
             <button>Hire developer</button>
           </Link>
         </div>

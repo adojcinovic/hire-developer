@@ -3,8 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Create_profile from "./pages/Create_profile/Create_profile";
-import Create_team from "./pages/Hire_dev/Hire_dev";
-import Edit_dev from "./pages/Edit_dev/Edit_dev";
+import Hire_developer from "./pages/Hire_developer/Hire_developer";
 import axios from "axios";
 
 export const developersContext = React.createContext();
@@ -45,9 +44,8 @@ function App() {
             />
           </Route>
           <Route exact path="/create_profile" component={Create_profile} />
-          <Route exact path="/create_team" component={Create_team} />
-          <Route exact path="/edit_dev">
-            <Edit_dev pickedId={pickedId} />
+          <Route exact path="/hire_developer">
+            <Hire_developer />
           </Route>
         </DevelopersProvider>
       </Switch>
