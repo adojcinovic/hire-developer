@@ -1,0 +1,9 @@
+.available {
+  display: flex;
+  align-items: center;
+  border: 1px green solid;
+  padding: 10px;
+}
+.available .name {
+  font-size: 24px;
+}
