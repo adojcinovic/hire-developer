@@ -1,6 +1,7 @@
 import "./Hire_developer.css";
 import moment from "moment";
 import { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import { developersContext } from "../../App";
 import Available_dev from "../../components/Available_dev/Available_dev";
 
@@ -38,35 +39,41 @@ const Hire_developer = () => {
 
   return (
     <>
-      <div>please pick your dates</div>
-      <div className="dates">
-        <label htmlFor="startDate">start date: </label>
-        <input
-          type="date"
-          name="startDate"
-          id="startDate"
-          onChange={(event) => {
-            setAvailableDevelopers([]);
-            setStartDate(event.target.value);
-          }}
-        />
-        <label htmlFor="endDate">end date: </label>
-        <input
-          type="date"
-          name="endDate"
-          id="endDate"
-          onChange={(event) => {
-            setAvailableDevelopers([]);
-            setEndDate(event.target.value);
-          }}
-        />
-        <button
-          onClick={() => {
-            checkAvailability();
-          }}
-        >
-          check availability
-        </button>
+      <Link to="/">Home</Link>
+      <div className="hire-header">
+        <div>please pick your dates</div>
+      </div>
+      <div className="top">
+        <div className="dates">
+          <label htmlFor="startDate">start date: </label>
+          <input
+            type="date"
+            name="startDate"
+            id="startDate"
+            onChange={(event) => {
+              setAvailableDevelopers([]);
+              setStartDate(event.target.value);
+            }}
+          />
+          <label htmlFor="endDate">end date: </label>
+          <input
+            type="date"
+            name="endDate"
+            id="endDate"
+            onChange={(event) => {
+              setAvailableDevelopers([]);
+              setEndDate(event.target.value);
+            }}
+          />
+          <button
+            onClick={() => {
+              checkAvailability();
+            }}
+          >
+            check availability
+          </button>
+          <button>hire selected</button>
+        </div>
         {availableDevelopers.length > 0 && (
           <div className="available-developers">
             <Available_dev availableDevelopers={availableDevelopers} />

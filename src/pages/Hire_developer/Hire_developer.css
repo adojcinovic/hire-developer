@@ -1,0 +1,44 @@
+.available-developers {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+.hire-header {
+  text-align: center;
+  font-size: 18px;
+  padding-bottom: 15px;
+  font-weight: 700;
+  color: green;
+}
+.top {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.top .dates {
+  display: flex;
+  justify-content: space-around;
+}
+.top .dates label {
+  padding-top: 10px;
+  color: green;
+  margin-left: 10px;
+}
+.top .dates input {
+  color: green;
+  cursor: pointer;
+  border-radius: 20px;
+  border: 1px solid green;
+  padding: 10px 15px;
+  margin-left: 10px;
+}
+.top .dates button {
+  color: green;
+  cursor: pointer;
+  border-radius: 20px;
+  border: 1px solid green;
+  padding: 10px 15px;
+  margin-left: 10px;
+}

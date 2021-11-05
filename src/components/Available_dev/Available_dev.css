@@ -3,7 +3,19 @@
   align-items: center;
   border: 1px green solid;
   padding: 10px;
+  margin: 10px 50px;
 }
+.available .info {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-grow: 1;
+}
+
 .available .name {
-  font-size: 24px;
+  font-weight: bold;
+}
+.available img {
+  border-radius: 50%;
+  width: 100px;
 }
