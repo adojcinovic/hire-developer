@@ -20,8 +20,8 @@ const Available_dev = (props) => {
             type="checkbox"
             name="hired"
             id="hired"
-            onClick={(event) => {
-              console.log(event.target.checked);
+            onChange={() => {
+              developer.selected = !developer.selected;
             }}
           />
         </div>

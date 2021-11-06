@@ -10,6 +10,9 @@ const Hire_developer = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [availableDevelopers, setAvailableDevelopers] = useState([]);
+  const [hiredDevelopers, setHiredDevelopers] = useState([]);
+
+  console.log(hiredDevelopers);
 
   const checkAvailability = () => {
     if (moment(startDate).isAfter() && moment(endDate).isAfter(startDate)) {
@@ -17,18 +20,14 @@ const Hire_developer = () => {
       developers.filter((developer) => {
         if (developer.hired.length === 0) {
           array.push(developer);
-          setAvailableDevelopers(array);
-        } else {
-          developer.hired.filter((element) => {
-            if (
-              moment(element.startDate).isAfter(startDate) &&
-              moment(element.endDate).isBefore(endDate)
-            ) {
-              array.push(developer);
-              setAvailableDevelopers(array);
-            }
-          });
+        } else if (
+          moment(developer.hired[0].startDate).isAfter(startDate) &&
+          moment(developer.hired[0].endDate).isBefore(endDate)
+        ) {
+          console.log(developer.hired[0]);
+          array.push(developer);
         }
+        setAvailableDevelopers(array);
       });
     } else {
       alert(
@@ -72,13 +71,47 @@ const Hire_developer = () => {
           >
             check availability
           </button>
-          <button>hire selected</button>
+          <button
+            onClick={() => {
+              setHiredDevelopers(
+                availableDevelopers.filter((developer) => {
+                  if (developer.selected) {
+                    developer.hired.push({
+                      startDate: startDate,
+                      endDate: endDate,
+                    });
+                    return developer;
+                  }
+                })
+              );
+            }}
+          >
+            hire selected
+          </button>
         </div>
         {availableDevelopers.length > 0 && (
           <div className="available-developers">
-            <Available_dev availableDevelopers={availableDevelopers} />
+            <Available_dev
+              availableDevelopers={availableDevelopers}
+              setHiredDevelopers={setHiredDevelopers}
+              setAvailableDevelopers={setAvailableDevelopers}
+            />
           </div>
         )}
+        <hr className="horizontal-line" />
+        <div className="currently-hired">
+          Below listed developers are hired at the moment:
+          {hiredDevelopers.map((developer) => {
+            return (
+              <div className="hired-dev">
+                <img src={developer.profile_pic} alt="" />
+                <p>{developer.name}</p>
+                <p>from: {developer.hired[0].startDate}</p>
+                <p>to: {developer.hired[0].endDate}</p>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </>
   );

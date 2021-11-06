@@ -42,3 +42,29 @@
   padding: 10px 15px;
   margin-left: 10px;
 }
+.horizontal-line {
+  width: 90%;
+  margin-top: 100px;
+  margin-bottom: 20px;
+}
+.currently-hired {
+  text-align: center;
+  font-size: 18px;
+  padding-bottom: 15px;
+  font-weight: 700;
+  width: 100%;
+}
+.currently-hired .hired-dev {
+  display: flex;
+  align-items: center;
+  border: 1px green solid;
+  padding: 10px;
+  margin: 10px 50px;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-grow: 1;
+}
+.currently-hired .hired-dev img {
+  border-radius: 50%;
+  width: 100px;
+}
