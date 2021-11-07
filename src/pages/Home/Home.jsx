@@ -1,8 +1,7 @@
 import "./Home.css";
 import { Link } from "react-router-dom";
 import Dev_card from "../../components/Dev_card/Dev_card";
-import { useContext, useState } from "react";
-import { developersContext } from "../../App";
+import { useState } from "react";
 import Modal from "react-modal";
 import Dev_info from "../../components/Dev_info/Dev_info";
 import Dev_edit from "../../components/Dev_edit/Dev_edit";
@@ -12,7 +11,6 @@ import { EDIT_MODAL_STYLE } from "./Modal_style";
 Modal.setAppElement("#root");
 
 const Home = (props) => {
-  const { developers } = useContext(developersContext);
   const { pickedId, setPickedId } = props;
   const [modalOpen, setModalOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);

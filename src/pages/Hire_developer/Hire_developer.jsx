@@ -1,20 +1,42 @@
 import "./Hire_developer.css";
 import moment from "moment";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { developersContext } from "../../App";
 import Available_dev from "../../components/Available_dev/Available_dev";
+import uuid from "react-uuid";
+import axios from "axios";
 
 const Hire_developer = () => {
-  const { developers } = useContext(developersContext);
+  const { developers, shouldFetch, setShouldFetch } = useContext(
+    developersContext
+  );
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [availableDevelopers, setAvailableDevelopers] = useState([]);
   const [hiredDevelopers, setHiredDevelopers] = useState([]);
   const [hiredSingleDeveloper, setHiredSingleDeveloper] = useState([]);
-
   console.log(hiredDevelopers);
-  console.log(hiredSingleDeveloper);
+
+  const send = () => {
+    console.log("tralallala");
+
+    hiredDevelopers.map((developer) => {
+      axios.put(
+        `https://618129148bfae60017adfe77.mockapi.io/developers/${developer.id}`,
+        developer
+      );
+    });
+  };
+
+  useEffect(() => {
+    hiredSingleDeveloper.map((developer) => {
+      axios.put(
+        `https://618129148bfae60017adfe77.mockapi.io/developers/${developer.id}`,
+        developer
+      );
+    });
+  }, [hiredSingleDeveloper]);
 
   const checkAvailability = () => {
     if (moment(startDate).isAfter() && moment(endDate).isAfter(startDate)) {
@@ -23,7 +45,7 @@ const Hire_developer = () => {
         if (developer.hired.length === 0) {
           array.push(developer);
         } else {
-          developer.hired.filter((date) => {
+          developer.hired.every((date) => {
             if (
               moment(startDate).isAfter(date.endDate) ||
               moment(endDate).isBefore(date.startDate)
@@ -79,17 +101,20 @@ const Hire_developer = () => {
           <button
             onClick={() => {
               setAvailableDevelopers([]);
-              setHiredDevelopers(
-                availableDevelopers.filter((developer) => {
-                  if (developer.selected) {
-                    developer.hired.push({
-                      startDate: startDate,
-                      endDate: endDate,
-                    });
-                    return developer;
-                  }
-                })
-              );
+              let tempHiredDevelopers = [];
+              tempHiredDevelopers = availableDevelopers.filter((developer) => {
+                if (developer.selected) {
+                  developer.hired.push({
+                    startDate: startDate,
+                    endDate: endDate,
+                    hiredAs: "team",
+                  });
+                  return developer;
+                }
+              });
+              setHiredDevelopers(tempHiredDevelopers);
+              send();
+              setShouldFetch(!shouldFetch);
             }}
           >
             hire team of developers
@@ -97,18 +122,20 @@ const Hire_developer = () => {
           <button
             onClick={() => {
               setAvailableDevelopers([]);
-              setHiredSingleDeveloper(
-                availableDevelopers.filter((developer) => {
-                  if (developer.selected) {
-                    developer.selected = !developer.selected;
-                    developer.hired.push({
-                      startDate: startDate,
-                      endDate: endDate,
-                    });
-                    return developer;
-                  }
-                })
-              );
+              let tempSingleHiredArray = [];
+              tempSingleHiredArray = availableDevelopers.filter((developer) => {
+                if (developer.selected) {
+                  developer.selected = !developer.selected;
+                  developer.hired.push({
+                    startDate: startDate,
+                    endDate: endDate,
+                    hiredAs: "individual",
+                  });
+                  return developer;
+                }
+              });
+              setHiredSingleDeveloper(tempSingleHiredArray);
+              setShouldFetch(!shouldFetch);
             }}
           >
             hire single developer
@@ -118,59 +145,70 @@ const Hire_developer = () => {
           <div className="available-developers">
             <Available_dev
               availableDevelopers={availableDevelopers}
-              setHiredDevelopers={setHiredDevelopers}
               setAvailableDevelopers={setAvailableDevelopers}
             />
           </div>
         )}
         <hr className="horizontal-line" />
         <div className="currently-hired">
-          Below listed developers are hired as a team of developers:
-          {hiredDevelopers.map((developer) => {
-            return (
-              <div key={developer.id} className="hired-dev">
-                <img src={developer.profile_pic} alt="profile_pic" />
-                <p>{developer.name}</p>
-                <p>
-                  from:
-                  {developer.hired.map((element) => {
-                    return <p>{element.startDate}</p>;
-                  })}
-                </p>
-                <p>
-                  to:{" "}
-                  {developer.hired.map((element) => {
-                    return <p>{element.endDate}</p>;
-                  })}
-                </p>
-              </div>
-            );
+          Below listed developers are hired:
+          {developers.map((developer) => {
+            if (developer.hired.length > 0)
+              return (
+                <div key={developer.id} className="hired-dev">
+                  <img src={developer.profile_pic} alt="profile_pic" />
+                  <p>{developer.name}</p>
+                  <p>
+                    from:
+                    {developer.hired.map((element) => {
+                      return <p key={uuid()}>{element.startDate}</p>;
+                    })}
+                  </p>
+                  <p>
+                    to:{" "}
+                    {developer.hired.map((element) => {
+                      return <p key={uuid()}>{element.endDate}</p>;
+                    })}
+                  </p>
+                  <p>
+                    hired as:{" "}
+                    {developer.hired.map((element) => {
+                      return <p key={uuid()}>{element.hiredAs}</p>;
+                    })}
+                  </p>
+                </div>
+              );
           })}
         </div>
-        <hr className="horizontal-line" />
-        <div className="currently-hired">
+        {/* <div className="currently-hired">
           Below listed developers are hired individually:
-          {hiredSingleDeveloper.map((developer) => {
-            return (
-              <div key={developer.id} className="hired-dev">
-                <img src={developer.profile_pic} alt="profile_pic" />
-                <p>{developer.name}</p>
-                <p>
-                  from:{" "}
-                  {developer.hired.map((element, index) => {
-                    return <p>{element.startDate}</p>;
-                  })}
-                </p>
-                <p>
-                  to:{" "}
-                  {developer.hired.map((element) => {
-                    return <p>{element.endDate}</p>;
-                  })}
-                </p>
-              </div>
-            );
+          {developers.map((developer) => {
+            if (
+              developer.hired.length > 0 &&
+              developer.hired.filter((element) => {
+                if (element.hiredAs === "individual") return true;
+              })
+            )
+              return (
+                <div key={developer.id} className="hired-dev">
+                  <img src={developer.profile_pic} alt="profile_pic" />
+                  <p>{developer.name}</p>
+                  <p>
+                    from:{" "}
+                    {developer.hired.map((element) => {
+                      return <p key={uuid()}>{element.startDate}</p>;
+                    })}
+                  </p>
+                  <p>
+                    to:{" "}
+                    {developer.hired.map((element) => {
+                      return <p key={uuid()}>{element.endDate}</p>;
+                    })}
+                  </p>
+                </div>
+              );
           })}
-        </div>
+        </div> */}
       </div>
     </>
   );

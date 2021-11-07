@@ -7,12 +7,8 @@ import axios from "axios";
 
 const Create_profile = () => {
   let history = useHistory();
-  const { developers, setDevelopers, shouldFetch, setShouldFetch } = useContext(
-    developersContext
-  );
+  const { shouldFetch, setShouldFetch } = useContext(developersContext);
 
-  const [isValid, setIsValid] = useState(false);
-  const [message, setMessage] = useState("");
   const [newDev, setNewDev] = useState({
     name: "",
     email: "",
@@ -20,12 +16,12 @@ const Create_profile = () => {
     location: "",
     profile_pic: "https://cdn.fakercloud.com/avatars/nbirckel_128.jpg",
     price: "",
-    technology: "php",
-    years_of_experience: null,
-    language: "Serbian",
+    technology: "",
+    years_of_experience: "",
+    language: "",
     hired: { startDate: 1, endDate: 1 },
+    selected: false,
   });
-  const emailRegex = /\S+@\S+\.\S+/;
 
   const submitNew = () => {
     axios
@@ -36,122 +32,133 @@ const Create_profile = () => {
       });
   };
 
-  const validateEmail = (event) => {
-    const email = event.target.value;
-    if (emailRegex.test(email)) {
-      setIsValid(true);
-      setMessage("Success");
-    } else {
-      setIsValid(false);
-      setMessage("Please enter a valid email.");
+  const submitForm = async (event) => {
+    event.preventDefault();
+    try {
+      await submitNew();
+    } catch (error) {
+      alert("Oops! Something went wrong... :( Please try again.");
     }
   };
+
+  const handleInput = (event) => {
+    const { name, value } = event.target;
+    setNewDev({ ...newDev, [name]: value });
+  };
+
+  const {
+    name,
+    email,
+    phone,
+    location,
+    price,
+    years_of_experience,
+    technology,
+    language,
+  } = newDev;
 
   return (
     <>
       <Link to="/" className="link">
         Home
       </Link>
-      <div className="new-dev">
-        <h2>Create new developer</h2>
-        <label htmlFor="name">Name: </label>
-        <input
-          type="text"
-          name="name"
-          id="name"
-          placeholder="Enter name..."
-          onChange={(event) => {
-            setNewDev({ ...newDev, name: event.target.value });
-          }}
-        />
-        <label htmlFor="language">Language: </label>
-        <select
-          onChange={(event) => {
-            setNewDev({ ...newDev, language: event.target.value });
-            console.log(newDev);
-          }}
-          name="language"
-          id="language"
-        >
-          <option value="Serbian">Serbian</option>
-          <option value="Bulgarian">Bulgarian</option>
-          <option value="English">English</option>
-        </select>
-        <label htmlFor="email">Email: </label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          placeholder="Enter a valid email..."
-          onChange={(event) => {
-            validateEmail(event);
-            setNewDev({ ...newDev, email: event.target.value });
-          }}
-        />
-        <div className={`message ${isValid ? "success" : "error"}`}>
-          {message}
+      <form action="post" onSubmit={submitForm}>
+        <div className="new-dev">
+          <h2>Create new developer</h2>
+          <label htmlFor="name">Name: </label>
+          <input
+            required
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Enter name..."
+            value={name}
+            onChange={handleInput}
+          />
+          <label htmlFor="language">Language: </label>
+          <select
+            required
+            name="language"
+            id="language"
+            value={language}
+            onChange={handleInput}
+          >
+            <option value="">--Please choose a language--</option>
+            <option value="Serbian">Serbian</option>
+            <option value="Bulgarian">Bulgarian</option>
+            <option value="English">English</option>
+          </select>
+          <label htmlFor="email">Email: </label>
+          <input
+            required
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Enter a valid email..."
+            value={email}
+            onChange={handleInput}
+          />
+          <label htmlFor="phone">Phone: </label>
+          <input
+            required
+            type="tel"
+            name="phone"
+            id="phone"
+            placeholder="Enter a phone number..."
+            value={phone}
+            onChange={handleInput}
+          />
+          <label htmlFor="location">Location: </label>
+          <input
+            required
+            type="text"
+            name="location"
+            id="location"
+            placeholder="Enter country..."
+            value={location}
+            onChange={handleInput}
+          />
+          <label htmlFor="price">Price per hour in $: </label>
+          <input
+            required
+            type="text"
+            id="price"
+            name="price"
+            placeholder="Enter a price in USD..."
+            value={price}
+            onChange={handleInput}
+          />
+          <label htmlFor="technology">technology: </label>
+          <select
+            required
+            name="technology"
+            id="technology"
+            value={technology}
+            onChange={handleInput}
+          >
+            <option value="">--Please choose technology--</option>
+            <option value="php">php</option>
+            <option value=".NET">.NET</option>
+            <option value="python">python</option>
+            <option value="javascript">javascript</option>
+            <option value="flutter">flutter</option>
+            <option value="JAVA">JAVA</option>
+          </select>
+          <label htmlFor="experience">Experience</label>
+          <input
+            required
+            type="text"
+            id="experience"
+            placeholder="How many years of experience?"
+            name="years_of_experience"
+            value={years_of_experience}
+            onChange={handleInput}
+          />
+          <button className="submit" type="submit">
+            submit
+          </button>
         </div>
-        <label htmlFor="phone">Phone: </label>
-        <input
-          type="tel"
-          name="phone"
-          id="phone"
-          placeholder="Enter a phone number..."
-          onChange={(event) => {
-            setNewDev({ ...newDev, phone: event.target.value });
-          }}
-        />
-        <label htmlFor="location">Location: </label>
-        <input
-          type="text"
-          id="location"
-          placeholder="Enter country..."
-          onChange={(event) => {
-            setNewDev({ ...newDev, location: event.target.value });
-          }}
-        />
-        <label htmlFor="price">Price per hour in $: </label>
-        <input
-          type="text"
-          id="price"
-          placeholder="Enter a price in USD..."
-          onChange={(event) => {
-            setNewDev({ ...newDev, price: event.target.value });
-          }}
-        />
-        <label htmlFor="technology">technology: </label>
-        <select
-          onChange={(event) => {
-            setNewDev({ ...newDev, technology: event.target.value });
-          }}
-          name="technology"
-          id="technology"
-        >
-          <option value="php">php</option>
-          <option value=".NET">.NET</option>
-          <option value="python">python</option>
-          <option value="javascript">javascript</option>
-          <option value="javascript">flutter</option>
-          <option value="javascript">JAVA</option>
-        </select>
-        <label htmlFor="experience">Experience</label>
-        <input
-          type="text"
-          id="experience"
-          placeholder="How many years of experience?"
-          onChange={(event) => {
-            setNewDev({ ...newDev, years_of_experience: event.target.value });
-          }}
-        />
-        <p
-          className="submit"
-          onClick={() => {
-            submitNew();
-          }}
-        >
-          submit
-        </p>
-      </div>
+      </form>
     </>
   );
 };

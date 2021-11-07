@@ -4,25 +4,26 @@ import { developersContext } from "../../App";
 import axios from "axios";
 
 const Dev_edit = (props) => {
-  const { developers, setDevelopers, shouldFetch, setShouldFetch } = useContext(
+  const { developers, shouldFetch, setShouldFetch } = useContext(
     developersContext
   );
   const { setEditOpen, pickedId } = props;
-  const [isValid, setIsValid] = useState(false);
-  const [message, setMessage] = useState("");
   const dev = developers.find((element) => element.id === pickedId);
   const [editedDev, setEditedDev] = useState(dev);
-  const emailRegex = /\S+@\S+\.\S+/;
+  const {
+    name,
+    email,
+    phone,
+    location,
+    price,
+    years_of_experience,
+    technology,
+    language,
+  } = dev;
 
-  const validateEmail = (event) => {
-    const email = event.target.value;
-    if (emailRegex.test(email)) {
-      setIsValid(true);
-      setMessage("Success");
-    } else {
-      setIsValid(false);
-      setMessage("Please enter a valid email.");
-    }
+  const handleInput = (event) => {
+    const { name, value } = event.target;
+    setEditedDev({ ...editedDev, [name]: value });
   };
 
   const submit = () => {
@@ -39,115 +40,109 @@ const Dev_edit = (props) => {
       });
   };
 
+  const submitForm = async (event) => {
+    event.preventDefault();
+    try {
+      await submit();
+    } catch (error) {
+      alert("Oops! Something went wrong... :( Please try again.");
+    }
+  };
+
   return (
     <div className="modal">
       <p onClick={() => setEditOpen(false)} className="close">
         close
       </p>
-      <div>
-        <label htmlFor="name">Name: </label>
-        <input
-          type="text"
-          name="name"
-          id="name"
-          defaultValue={dev.name}
-          placeholder="Enter name..."
-          onChange={(event) => {
-            setEditedDev({ ...editedDev, name: event.target.value });
-            console.log(editedDev);
-          }}
-        />
-        <label htmlFor="language">Language: </label>
-        <input
-          type="text"
-          name="language"
-          id="language"
-          s
-          defaultValue={dev.language}
-          placeholder="Enter a language..."
-          onChange={(event) => {
-            setEditedDev({ ...editedDev, language: event.target.value });
-          }}
-        />
-        <label htmlFor="email">Email: </label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          className="email"
-          defaultValue={dev.email.toLowerCase()}
-          placeholder="Enter a valid email..."
-          onChange={(event) => {
-            validateEmail(event);
-            setEditedDev({ ...editedDev, email: event.target.value });
-          }}
-        />
-        <div className={`message ${isValid ? "success" : "error"}`}>
-          {message}
+      <form method="post" onSubmit={submitForm}>
+        <div>
+          <label htmlFor="name">Name: </label>
+          <input
+            required
+            type="text"
+            name="name"
+            id="name"
+            defaultValue={name}
+            placeholder="Enter name..."
+            onChange={handleInput}
+          />
+          <label htmlFor="language">Language: </label>
+          <input
+            required
+            type="text"
+            name="language"
+            id="language"
+            s
+            defaultValue={language}
+            placeholder="Enter a language..."
+            onChange={handleInput}
+          />
+          <label htmlFor="email">Email: </label>
+          <input
+            required
+            type="email"
+            name="email"
+            id="email"
+            className="email"
+            defaultValue={email.toLowerCase()}
+            placeholder="Enter a valid email..."
+            onChange={handleInput}
+          />
+          <label htmlFor="phone">Phone: </label>
+          <input
+            required
+            type="tel"
+            name="phone"
+            id="phone"
+            placeholder="Enter a phone number..."
+            defaultValue={phone}
+            onChange={handleInput}
+          />
+          <label htmlFor="location">Location: </label>
+          <input
+            required
+            type="text"
+            id="location"
+            name={location}
+            defaultValue={location}
+            placeholder="Enter country..."
+            onChange={handleInput}
+          />
+          <label htmlFor="price">Price per hour in $: </label>
+          <input
+            required
+            type="text"
+            id="price"
+            name={price}
+            defaultValue={`$${price}`}
+            placeholder="Enter a price in USD..."
+            onChange={handleInput}
+          />
+          <label htmlFor="technology">technology: </label>
+          <input
+            required
+            type="text"
+            id="technology"
+            name={technology}
+            defaultValue={technology}
+            placeholder="Enter a technology..."
+            onChange={handleInput}
+          />
+          <label htmlFor="experience">Experience</label>
+          <input
+            required
+            type="text"
+            id="experience"
+            name={years_of_experience}
+            defaultValue={years_of_experience}
+            placeholder="How many years of experience?"
+            onChange={handleInput}
+          />
         </div>
-        <label htmlFor="phone">Phone: </label>
-        <input
-          type="tel"
-          name="phone"
-          id="phone"
-          placeholder="Enter a phone number..."
-          defaultValue={dev.phone}
-          onChange={(event) => {
-            setEditedDev({ ...editedDev, phone: event.target.value });
-          }}
-        />
-        <label htmlFor="location">Location: </label>
-        <input
-          type="text"
-          id="location"
-          defaultValue={dev.location}
-          placeholder="Enter country..."
-          onChange={(event) => {
-            setEditedDev({ ...editedDev, location: event.target.value });
-          }}
-        />
-        <label htmlFor="price">Price per hour in $: </label>
-        <input
-          type="text"
-          id="price"
-          defaultValue={`${dev.price}`}
-          placeholder="Enter a price in USD..."
-          onChange={(event) => {
-            setEditedDev({ ...editedDev, price: event.target.value });
-          }}
-        />
-        <label htmlFor="technology">technology: </label>
-        <input
-          type="text"
-          id="technology"
-          defaultValue={dev.technology}
-          placeholder="Enter a technology..."
-          onChange={(event) => {
-            setEditedDev({ ...editedDev, technology: event.target.value });
-          }}
-        />
-        <label htmlFor="experience">Experience</label>
-        <input
-          type="text"
-          id="experience"
-          defaultValue={dev.years_of_experience}
-          placeholder="How many years of experience?"
-          onChange={(event) => {
-            setEditedDev({
-              ...editedDev,
-              years_of_experience: event.target.value,
-            });
-          }}
-        />
-      </div>
-      <p
-        className="submit"
-        onClick={() => {
-          submit();
-        }}
-      >
-        submit
-      </p>
+        <button type="submit" className="submit">
+          submit
+        </button>
+      </form>
     </div>
   );
 };

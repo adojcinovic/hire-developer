@@ -45,4 +45,6 @@
   background-color: lightgray;
   border-radius: 20px;
   padding: 5px 15px;
+  border: none;
+  margin-top: 5px;
 }

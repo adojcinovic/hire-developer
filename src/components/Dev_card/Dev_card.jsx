@@ -6,7 +6,7 @@ import axios from "axios";
 const Dev_card = (props) => {
   const { developers } = useContext(developersContext);
   const { setDevelopers } = useContext(developersContext);
-  const { setModalOpen, setEditOpen, setPickedId, pickedId } = props;
+  const { setModalOpen, setEditOpen, setPickedId } = props;
   console.log(setDevelopers);
 
   const deleteDev = (id) => {
