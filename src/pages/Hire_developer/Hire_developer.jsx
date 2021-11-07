@@ -11,8 +11,10 @@ const Hire_developer = () => {
   const [endDate, setEndDate] = useState("");
   const [availableDevelopers, setAvailableDevelopers] = useState([]);
   const [hiredDevelopers, setHiredDevelopers] = useState([]);
+  const [hiredSingleDeveloper, setHiredSingleDeveloper] = useState([]);
 
   console.log(hiredDevelopers);
+  console.log(hiredSingleDeveloper);
 
   const checkAvailability = () => {
     if (moment(startDate).isAfter() && moment(endDate).isAfter(startDate)) {
@@ -20,12 +22,15 @@ const Hire_developer = () => {
       developers.filter((developer) => {
         if (developer.hired.length === 0) {
           array.push(developer);
-        } else if (
-          moment(developer.hired[0].startDate).isAfter(startDate) &&
-          moment(developer.hired[0].endDate).isBefore(endDate)
-        ) {
-          console.log(developer.hired[0]);
-          array.push(developer);
+        } else {
+          developer.hired.filter((date) => {
+            if (
+              moment(startDate).isAfter(date.endDate) ||
+              moment(endDate).isBefore(date.startDate)
+            ) {
+              array.push(developer);
+            }
+          });
         }
         setAvailableDevelopers(array);
       });
@@ -73,6 +78,7 @@ const Hire_developer = () => {
           </button>
           <button
             onClick={() => {
+              setAvailableDevelopers([]);
               setHiredDevelopers(
                 availableDevelopers.filter((developer) => {
                   if (developer.selected) {
@@ -86,7 +92,26 @@ const Hire_developer = () => {
               );
             }}
           >
-            hire selected
+            hire team of developers
+          </button>
+          <button
+            onClick={() => {
+              setAvailableDevelopers([]);
+              setHiredSingleDeveloper(
+                availableDevelopers.filter((developer) => {
+                  if (developer.selected) {
+                    developer.selected = !developer.selected;
+                    developer.hired.push({
+                      startDate: startDate,
+                      endDate: endDate,
+                    });
+                    return developer;
+                  }
+                })
+              );
+            }}
+          >
+            hire single developer
           </button>
         </div>
         {availableDevelopers.length > 0 && (
@@ -100,14 +125,48 @@ const Hire_developer = () => {
         )}
         <hr className="horizontal-line" />
         <div className="currently-hired">
-          Below listed developers are hired at the moment:
+          Below listed developers are hired as a team of developers:
           {hiredDevelopers.map((developer) => {
             return (
-              <div className="hired-dev">
-                <img src={developer.profile_pic} alt="" />
+              <div key={developer.id} className="hired-dev">
+                <img src={developer.profile_pic} alt="profile_pic" />
                 <p>{developer.name}</p>
-                <p>from: {developer.hired[0].startDate}</p>
-                <p>to: {developer.hired[0].endDate}</p>
+                <p>
+                  from:
+                  {developer.hired.map((element) => {
+                    return <p>{element.startDate}</p>;
+                  })}
+                </p>
+                <p>
+                  to:{" "}
+                  {developer.hired.map((element) => {
+                    return <p>{element.endDate}</p>;
+                  })}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+        <hr className="horizontal-line" />
+        <div className="currently-hired">
+          Below listed developers are hired individually:
+          {hiredSingleDeveloper.map((developer) => {
+            return (
+              <div key={developer.id} className="hired-dev">
+                <img src={developer.profile_pic} alt="profile_pic" />
+                <p>{developer.name}</p>
+                <p>
+                  from:{" "}
+                  {developer.hired.map((element, index) => {
+                    return <p>{element.startDate}</p>;
+                  })}
+                </p>
+                <p>
+                  to:{" "}
+                  {developer.hired.map((element) => {
+                    return <p>{element.endDate}</p>;
+                  })}
+                </p>
               </div>
             );
           })}

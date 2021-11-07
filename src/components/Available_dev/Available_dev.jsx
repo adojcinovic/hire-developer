@@ -5,7 +5,7 @@ const Available_dev = (props) => {
 
   return availableDevelopers.map((developer) => {
     return (
-      <div className="available">
+      <div key={developer.id} className="available">
         <img src={developer.profile_pic} alt="avatar" />
         <div className="info">
           <p className="name">{developer.name}</p>
