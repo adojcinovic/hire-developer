@@ -16,18 +16,15 @@ const Hire_developer = () => {
   const [availableDevelopers, setAvailableDevelopers] = useState([]);
   const [hiredDevelopers, setHiredDevelopers] = useState([]);
   const [hiredSingleDeveloper, setHiredSingleDeveloper] = useState([]);
-  console.log(hiredDevelopers);
 
-  const send = () => {
-    console.log("tralallala");
-
+  useEffect(() => {
     hiredDevelopers.map((developer) => {
       axios.put(
         `https://618129148bfae60017adfe77.mockapi.io/developers/${developer.id}`,
         developer
       );
     });
-  };
+  }, [hiredDevelopers]);
 
   useEffect(() => {
     hiredSingleDeveloper.map((developer) => {
@@ -100,7 +97,6 @@ const Hire_developer = () => {
           </button>
           <button
             onClick={() => {
-              setAvailableDevelopers([]);
               let tempHiredDevelopers = [];
               tempHiredDevelopers = availableDevelopers.filter((developer) => {
                 if (developer.selected) {
@@ -113,7 +109,7 @@ const Hire_developer = () => {
                 }
               });
               setHiredDevelopers(tempHiredDevelopers);
-              send();
+              setAvailableDevelopers([]);
               setShouldFetch(!shouldFetch);
             }}
           >
@@ -121,7 +117,6 @@ const Hire_developer = () => {
           </button>
           <button
             onClick={() => {
-              setAvailableDevelopers([]);
               let tempSingleHiredArray = [];
               tempSingleHiredArray = availableDevelopers.filter((developer) => {
                 if (developer.selected) {
@@ -135,6 +130,7 @@ const Hire_developer = () => {
                 }
               });
               setHiredSingleDeveloper(tempSingleHiredArray);
+              setAvailableDevelopers([]);
               setShouldFetch(!shouldFetch);
             }}
           >
@@ -180,35 +176,6 @@ const Hire_developer = () => {
               );
           })}
         </div>
-        {/* <div className="currently-hired">
-          Below listed developers are hired individually:
-          {developers.map((developer) => {
-            if (
-              developer.hired.length > 0 &&
-              developer.hired.filter((element) => {
-                if (element.hiredAs === "individual") return true;
-              })
-            )
-              return (
-                <div key={developer.id} className="hired-dev">
-                  <img src={developer.profile_pic} alt="profile_pic" />
-                  <p>{developer.name}</p>
-                  <p>
-                    from:{" "}
-                    {developer.hired.map((element) => {
-                      return <p key={uuid()}>{element.startDate}</p>;
-                    })}
-                  </p>
-                  <p>
-                    to:{" "}
-                    {developer.hired.map((element) => {
-                      return <p key={uuid()}>{element.endDate}</p>;
-                    })}
-                  </p>
-                </div>
-              );
-          })}
-        </div> */}
       </div>
     </>
   );
