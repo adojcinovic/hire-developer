@@ -19,19 +19,27 @@ const Hire_developer = () => {
 
   useEffect(() => {
     hiredDevelopers.map((developer) => {
-      axios.put(
-        `https://618129148bfae60017adfe77.mockapi.io/developers/${developer.id}`,
-        developer
-      );
+      axios
+        .put(
+          `https://618129148bfae60017adfe77.mockapi.io/developers/${developer.id}`,
+          developer
+        )
+        .then(() => {
+          setShouldFetch(!shouldFetch);
+        });
     });
   }, [hiredDevelopers]);
 
   useEffect(() => {
     hiredSingleDeveloper.map((developer) => {
-      axios.put(
-        `https://618129148bfae60017adfe77.mockapi.io/developers/${developer.id}`,
-        developer
-      );
+      axios
+        .put(
+          `https://618129148bfae60017adfe77.mockapi.io/developers/${developer.id}`,
+          developer
+        )
+        .then(() => {
+          setShouldFetch(!shouldFetch);
+        });
     });
   }, [hiredSingleDeveloper]);
 
@@ -110,7 +118,6 @@ const Hire_developer = () => {
               });
               setHiredDevelopers(tempHiredDevelopers);
               setAvailableDevelopers([]);
-              setShouldFetch(!shouldFetch);
             }}
           >
             hire team of developers
@@ -131,7 +138,6 @@ const Hire_developer = () => {
               });
               setHiredSingleDeveloper(tempSingleHiredArray);
               setAvailableDevelopers([]);
-              setShouldFetch(!shouldFetch);
             }}
           >
             hire single developer
