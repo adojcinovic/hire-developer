@@ -108,6 +108,7 @@ const Hire_developer = () => {
               let tempHiredDevelopers = [];
               tempHiredDevelopers = availableDevelopers.filter((developer) => {
                 if (developer.selected) {
+                  developer.selected = !developer.selected;
                   developer.hired.push({
                     startDate: startDate,
                     endDate: endDate,
