@@ -1,6 +1,6 @@
 import "./Hire_developer.css";
 import moment from "moment";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { developersContext } from "../../App";
 import Available_dev from "../../components/Available_dev/Available_dev";
@@ -43,30 +43,25 @@ const Hire_developer = () => {
     });
   }, [hiredSingleDeveloper]);
 
-  const checkAvailability = () => {
+  const checkAvailability = useCallback(() => {
     if (moment(startDate).isAfter() && moment(endDate).isAfter(startDate)) {
-      const array = [...availableDevelopers];
-      developers.filter((developer) => {
-        if (developer.hired.length === 0) {
-          array.push(developer);
-        } else {
-          developer.hired.every((date) => {
-            if (
-              moment(startDate).isAfter(date.endDate) ||
-              moment(endDate).isBefore(date.startDate)
-            ) {
-              array.push(developer);
-            }
-          });
-        }
-        setAvailableDevelopers(array);
+      const array = developers.filter((developer) => {
+        return developer.hired.every((job) => {
+          return (
+            moment(startDate).isAfter(job.endDate) ||
+            moment(endDate).isBefore(job.startDate)
+          );
+        });
       });
+      console.log(array);
+
+      setAvailableDevelopers(array);
     } else {
       alert(
         "Your start date starts before today, or your end date is before your start date."
       );
     }
-  };
+  });
 
   return (
     <>
