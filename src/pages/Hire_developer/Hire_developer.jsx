@@ -67,7 +67,10 @@ const Hire_developer = () => {
     <>
       <Link to="/">Home</Link>
       <div className="hire-header">
-        <div>please pick your dates</div>
+        <div>
+          please pick your dates, and note that I fixed the bug with filtering
+          available developers in previous commit :)
+        </div>
       </div>
       <div className="top">
         <div className="dates">
